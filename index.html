@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Week Goals">
+<meta name="theme-color" content="#f3eee4">
+<title>Week Goals</title>
+<script>try{const t=localStorage.getItem('wkTheme');if(t)document.documentElement.dataset.theme=t}catch{}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main>
+<div class="top"><div><h1>Week<em>.</em>Goals</h1><small id="dt"></small></div><div class="row"><button id="th" aria-label="Toggle light and dark mode"></button><button id="inst">Add to home screen</button><button id="aib">Import from AI</button><button class="p" id="addb">+ Goal</button></div></div>
+<div class="card" id="hint"></div>
+<div class="side">
+<section class="card week">
+<div class="row nav"><button id="prev" aria-label="Previous week">‹</button><div class="wkt"><b id="wk"></b><div class="mute" id="wkn"></div></div><button id="next" aria-label="Next week">›</button></div>
+<div class="wrow">
+<div class="ringw"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="trk" cx="60" cy="60" r="52"/><circle class="fil" id="rf" cx="60" cy="60" r="52"/></svg><div class="rc"><b id="op">0%</b><small>done</small></div></div>
+<div class="wside"><div class="lbl"><span>Time used</span><b id="tp">0%</b></div><div class="bar t"><i id="tb"></i></div><div class="dl"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div><div class="pace" id="pace"></div></div>
+</div>
+</section>
+<div class="card ins" id="ins"></div>
+<details class="card" id="set"><summary>Settings, reminders and backup</summary>
+<div class="g2"><div><label class="f">Hours available per day</label><input type="number" id="ch" min="0.5" step="0.5"></div>
+<div><label class="f">Daily reminder time</label><input type="time" id="cr"></div></div>
+<div class="row" style="margin-top:12px"><button id="rem">Enable reminders</button><span class="mute" id="rs"></span></div>
+<p class="mute">In-app alerts only fire while the app is open. For alerts that work when it’s closed, add your tasks to your phone’s calendar:</p>
+<div class="row"><button id="ics">Add reminders to my calendar</button></div>
+<p class="mute">Downloads a calendar file with one event per day at your reminder time (08:00 if none is set) listing that day’s unfinished tasks. Open the file to add the events. Run it again after changes; most calendars update the same days instead of duplicating them.</p>
+<label class="f">Cloud sync (links your phone and laptop)</label>
+<div class="mute" id="syncOut"></div>
+<div id="syncIn"><input type="email" id="se" placeholder="Email" autocomplete="email"><input type="password" id="sp" placeholder="Password (6+ characters)" autocomplete="current-password" style="margin-top:8px"><div class="row" style="margin-top:8px"><button id="sin" class="p">Sign in</button><button id="sup">Create account</button></div></div>
+<div id="syncUser" style="display:none"><div class="mute" id="sm"></div><div class="row" style="margin-top:8px"><button id="snow">Sync now</button><button id="sout">Sign out</button></div></div>
+<label class="f">Backup (manual copy and paste)</label>
+<textarea id="bk" placeholder="Tap “Copy backup”, then paste it here on another device and tap “Restore”."></textarea>
+<div class="row" style="margin-top:8px"><button id="cp">Copy backup</button><button id="rs2">Restore from text</button></div>
+</details>
+</div>
+<div class="col">
+<div class="seg" id="seg" data-m="week"><button data-m="week" class="on">This week</button><button data-m="today">Today</button></div>
+<form class="card" id="f"><div class="in">
+<b style="font-family:var(--disp);font-size:1.15rem">New goal</b>
+<label class="f">Goal</label><input type="text" id="gt" placeholder="e.g. Finish the networking course" required>
+<div class="g2 fg">
+<div><label class="f">Total units (optional)</label><input type="number" id="gn" min="1" placeholder="e.g. 24"></div>
+<div><label class="f">Unit name</label><input type="text" id="gu" placeholder="lessons, pages"></div>
+<div><label class="f">Minutes per unit</label><input type="number" id="gm" min="1" placeholder="e.g. 30"></div>
+<div><label class="f">How hard is it?</label><select id="gh"><option value="easy">Easy: even pace</option><option value="med" selected>Medium: slightly front-loaded</option><option value="hard">Hard: front-loaded</option></select></div>
+</div>
+<label class="f">Key details / steps (one per line)</label>
+<textarea id="gd" placeholder="With units: notes or tips. Without units: each line is a step, in order. Leave both empty and I’ll suggest phases from the goal’s wording."></textarea>
+<div class="g2"><div><label class="f">Start day</label><select id="gs"></select></div><div><label class="f">Deadline day</label><select id="ge"></select></div></div>
+<label class="f" style="color:inherit"><input type="checkbox" id="gb" checked> Keep the last day as a review day</label>
+<div class="row" style="margin-top:14px"><button class="p" type="submit">Build my plan</button><button type="button" id="cancel">Cancel</button></div>
+</div></form>
+<section class="card fold" id="ai"><div class="in">
+<b style="font-family:var(--disp);font-size:1.15rem">Plan with an AI</b>
+<p class="mute">No API key needed. Use any chat AI you already have (ChatGPT, Claude, Gemini).</p>
+<ol class="steps"><li><b>Copy the prompt</b> and paste it into your AI chat.</li><li>Describe your goals for the week in plain words and answer its questions.</li><li>Copy the AI’s final reply (the code block) and paste it below.</li></ol>
+<div class="row"><button id="aicp" class="p">Copy AI prompt</button><span class="mute" id="aist"></span></div>
+<textarea id="aipr" readonly style="display:none;margin-top:8px;min-height:120px"></textarea>
+<label class="f">Paste the AI’s reply</label>
+<textarea id="aiin" placeholder="Paste here. Anything outside the curly braces is ignored." style="min-height:120px"></textarea>
+<div class="row" style="margin-top:8px"><button id="aipv">Check and preview</button></div>
+<div id="aiout"></div>
+<div class="row" style="margin-top:8px"><button id="aiadd" class="p" style="display:none">Add to my week</button><button type="button" id="aicl">Close</button></div>
+</div></section>
+<div id="list"></div>
+</div>
+</main>
+<script src="/config.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+<script src="/app.js" defer></script>
+</body>
+</html>
